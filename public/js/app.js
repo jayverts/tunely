@@ -64,7 +64,12 @@ $.ajax({
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   console.log('rendering album:', album);
+  var listOfSongs = "";
+  album.songs.forEach(function(song){
+    listOfSongs = listOfSongs + "-" + song.name;
 
+  });
+  
   var albumHtml =
   "        <!-- one album -->" +
   "        <div class='row album' data-album-id='" + "HARDCODED ALBUM ID" + "'>" +
@@ -91,9 +96,13 @@ function renderAlbum(album) {
   "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
   "                      </li>" +
   "                      <li class='list-group-item'>" +
-  "                        <h4 class='inline-header'>Released date:</h4>" +
+  "                        <h4 class='inline-header'>Genre:</h4>" +
   "                        <span class='album-genre'>" + album.genres + "</span>" +
   "                      </li>" +
+  "                     <li class='list-group-item'>" +
+  "                      <h4 class='inline-header'>Songs:</h4>" +
+  "                        <span class='album-songs'>" + listOfSongs + "</span>" +
+  "                    </li>" +
   "                    </ul>" +
   "                  </div>" +
   "                </div>" +

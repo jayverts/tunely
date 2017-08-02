@@ -86,7 +86,8 @@ app.get('/api/albums', function album_index(req, res){
 });
 
 app.post('/api/albums', function newAlbumPost(req,res) {
-  console.log(req.body);
+  console.log(req.body.genres);
+  req.body.genres = req.body.genres.split(",");
   db.Album.create(req.body, function(err, album) {
     console.log(err);
     res.json(album);
