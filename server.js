@@ -93,6 +93,31 @@ app.post('/api/albums', function newAlbumPost(req,res) {
     res.json(album);
   });
 });
+
+app.get('/api/albums/:id', function newSongPost(req,res) {
+  db.Album.findOne({
+    _id: req.params.id
+    }, function(err, album){
+      console.log("workingssss");
+      res.json(album);
+  });
+});
+
+app.post('/api/albums/:id/songs', function songPost(req, res) {
+  db.Album.findOne({
+    _id: req.params.id
+    }, function(err, album) {
+      album.songs.push({
+        name: req.body.name,
+        trackNumber: req.body.trackNumber
+      });
+      console.log("saving album");
+      album.save();
+      res.json(album);
+    db.Song.create(req.body, function(err, song) {
+    });
+  });
+});
 /**********
  * SERVER *
  **********/

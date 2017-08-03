@@ -57,6 +57,48 @@ $.ajax({
   url: '/api/albums',
   dataType: 'json',
   data: formData,
+  success: function(event){
+    renderAlbum(event);
+      }
+    });
+  });
+
+$('#albums').on('click', '.add-song', function(e) {
+  console.log('asdfasdfasdf');
+  var id= $(this).parents('.album').data('album-id');
+  console.log('id',id);
+  var currentAlbumId;
+  $('#songModal').data('album-id', currentAlbumId).modal();
+
+  // call this when the button on the modal is clicked
+//********
+ $('#saveSong').on('click', function handleNewSongSubmit(e) {
+    console.log("adding new songs");
+    e.preventDefault();
+
+    var newSong = $('#songName').val();
+    var track = $('#trackNumber').val();
+
+    $.ajax({
+      method: 'POST',
+      url: 'api/albums/'+ id + '/songs',
+      dataType: 'json',
+      data: {
+        name: newSong,
+        trackNumber: track
+      },
+    success: function(event){
+    $('#songModal').modal('hide');
+    $('#trackNumber').val("");
+    $('#songName').val("");
+      }
+    });
+    // get data from modal fields
+    // POST to SERVER
+    // clear form
+    // close modal
+    // update the correct album to show the new song
+
     });
   });
 });
@@ -67,12 +109,11 @@ function renderAlbum(album) {
   var listOfSongs = "";
   album.songs.forEach(function(song){
     listOfSongs = listOfSongs + "-" + song.name;
-
   });
   
   var albumHtml =
   "        <!-- one album -->" +
-  "        <div class='row album' data-album-id='" + "HARDCODED ALBUM ID" + "'>" +
+  "        <div class='row album' data-album-id='" + album._id+ "'>" +
   "          <div class='col-md-10 col-md-offset-1'>" +
   "            <div class='panel panel-default'>" +
   "              <div class='panel-body'>" +
@@ -111,12 +152,14 @@ function renderAlbum(album) {
   "              </div>" + // end of panel-body
 
   "              <div class='panel-footer'>" +
+  "              <button class='btn btn-primary add-song'>Add Song</button>" +
   "              </div>" +
 
   "            </div>" +
   "          </div>" +
   "          <!-- end one album -->";
 
-  $("#albums").append(albumHtml);
+  
+$("#albums").append(albumHtml);
 
 }
